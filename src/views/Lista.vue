@@ -14,9 +14,9 @@
         <div class="container">
             <form class="form-inline">
                 <div class="form-group sm-3 mb-2">
-                    <input type="search" class="form-control" id="nome" placeholder="Nome do Usuário">
+                    <input type="text" class="form-control" id="nome" placeholder="Nome do Usuário">
                 </div>
-                <button type="submit" class="btn btn-outline-success mx-3 mb-2">Buscar <i class="fas fa-search"></i></button>
+                <button v-on:click="buscar" type="submit" class="btn btn-outline-success mx-3 mb-2">Buscar <i class="fas fa-search"></i></button>
             </form>
 
             <div class="table-responsive">
@@ -30,25 +30,69 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                        <tr v-for="usuario of usuarios" :key="usuario.login">
+                            <td>{{ usuario.nome }}</td>
+                            <td>{{ usuario.login }}</td>
+                            <td>{{ usuario.email }}</td>
+                            <td>{{ usuario.senha }}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-          
         </div>
-
     </section>
 </template>
 
 <script>
 
+import Usuario from '@/services/usuarios'
+
+export default {
+
+    data(){
+        return {
+            usuarios: []
+        }
+    },
+
+    mounted(){
+        this.listar()
+    },
+
+    methods: {
+        listar(){
+            Usuario.listar().then(resposta => {
+                this.usuarios = resposta.data
+                // eslint-disable-next-line no-unused-vars
+                var usuariosIniciais
+                this.usuariosIniciais = this.usuarios
+            }).catch(e => {
+                console.log(e)
+            })
+        },
+
+        buscar: function (event) {
+            if (event) {
+                this.usuarios = this.usuariosIniciais
+                var nome = document.getElementById('nome');
+                // eslint-disable-next-line no-unused-vars
+                var resultadoUsuarios = []
+                var indexOfResultado = 0
+                for (var u in this.usuarios) {
+                    /* se o nome de algum usuario (em minúsculo), tiver pelo menos uma ocorrência no que o usuário buscou (em minúsculo), ele satisfaz a condição */
+                    if((this.usuarios[u].nome.toString().toLowerCase().indexOf(nome.value.toLowerCase())) >= 0){
+                        resultadoUsuarios[indexOfResultado++] = this.usuarios[u]
+                    }
+                }
+                this.usuarios = resultadoUsuarios
+            }
+        }
+    }
+
+}
+
 </script>
 
-<style >
+<style>
 
 </style>
