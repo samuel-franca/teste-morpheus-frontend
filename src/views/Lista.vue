@@ -12,11 +12,11 @@
         </div>
 
         <div class="container">
-            <form class="form-inline">
+            <form class="form-inline" v-on:submit.prevent="buscar">
                 <div class="form-group sm-3 mb-2">
                     <input type="text" class="form-control" id="nome" placeholder="Nome do Usuário">
                 </div>
-                <button v-on:click="buscar" type="submit" class="btn btn-outline-success mx-3 mb-2">Buscar <i class="fas fa-search"></i></button>
+                <button v-on:click="buscar" type="button" class="btn btn-outline-success mx-3 mb-2">Buscar <i class="fas fa-search"></i></button>
             </form>
 
             <div class="table-responsive">

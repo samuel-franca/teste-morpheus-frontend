@@ -1,24 +1,21 @@
-# teste-morpheus-frontend
+## O frontend do sistema foi desenvolvido em Vue.js.
 
-## Project setup
-```
-npm install
-```
+### Pré requisitos:
+- **Node.js**. [Clique aqui](https://nodejs.org/) para acessar a área de downloads do Node.js.
 
-### Compiles and hot-reloads for development
+### Passos para rodar a aplicação frontend:
+#### 1. Clone o repositório:
 ```
-npm run serve
+git clone https://github.com/samuel-franca/teste-morpheus-frontend
 ```
+Obs.: Antes de iniciar a aplicação, caso deseje utilizar o backend local (na porta 8080), deve-se modificar a URL no arquivo `src\services\config.js`. Atualmente, a API consumida é aquela disponível no Heroku.
 
-### Compiles and minifies for production
+#### 2. O seguinte comando instalará as dependências necessárias e iniciará a aplicação:
 ```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
+npm install && npm start
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Deploy do frontend no Heroku:
+Os passos seguidos para realizar o deploy do frontend no Heroku foram análagos aos passos realizados para realizar o backend. Para mais informações, [clique aqui](https://github.com/samuel-franca/teste-morpheus-backend/blob/master/README.md).
+
+Link para acesso a aplicação: https://teste-morpheus-frontend.herokuapp.com/.
