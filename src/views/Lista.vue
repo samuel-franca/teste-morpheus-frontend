@@ -27,6 +27,7 @@
                             <th>Login</th>
                             <th>E-mail</th>
                             <th>Senha</th>
+                            <th class="text-center">Ação</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -35,6 +36,9 @@
                             <td>{{ usuario.login }}</td>
                             <td>{{ usuario.email }}</td>
                             <td>{{ usuario.senha }}</td>
+                            <td class="text-center">
+                                <button @click="excluir(usuario.login)" type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -46,6 +50,8 @@
 <script>
 
 import Usuario from '@/services/usuarios'
+
+import Swal from 'sweetalert2'
 
 export default {
 
@@ -71,24 +77,49 @@ export default {
             })
         },
 
-        buscar: function (event) {
-            if (event) {
-                this.usuarios = this.usuariosIniciais
-                var nome = document.getElementById('nome');
-                // eslint-disable-next-line no-unused-vars
-                var resultadoUsuarios = []
-                var indexOfResultado = 0
-                for (var u in this.usuarios) {
-                    /* se o nome de algum usuario (em minúsculo), tiver pelo menos uma ocorrência no que o usuário buscou (em minúsculo), ele satisfaz a condição */
-                    if((this.usuarios[u].nome.toString().toLowerCase().indexOf(nome.value.toLowerCase())) >= 0){
-                        resultadoUsuarios[indexOfResultado++] = this.usuarios[u]
-                    }
+        buscar(){
+            this.usuarios = this.usuariosIniciais
+            var nome = document.getElementById('nome');
+            // eslint-disable-next-line no-unused-vars
+            var resultadoUsuarios = []
+            var indexOfResultado = 0
+            for (var u in this.usuarios) {
+                /* se o nome de algum usuario (em minúsculo), tiver pelo menos uma ocorrência no que o usuário buscou (em minúsculo), ele satisfaz a condição */
+                if((this.usuarios[u].nome.toString().toLowerCase().indexOf(nome.value.toLowerCase())) >= 0){
+                    resultadoUsuarios[indexOfResultado++] = this.usuarios[u]
                 }
-                this.usuarios = resultadoUsuarios
             }
+            this.usuarios = resultadoUsuarios
+        },
+
+        excluir(login){
+            Swal.fire({
+                title: 'Deseja excluir o Usuário?',
+                text: "Esta ação não poderá ser desfeita!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sim',
+                cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                if (result.value) {
+                    // eslint-disable-next-line no-unused-vars
+                    Usuario.excluir(login).then(resposta =>{
+                        this.listar()
+                        this.errors = []
+                    }).catch(e => {
+                        this.errors = e.response.data.errors
+                    })
+                    Swal.fire(
+                    'Excluído!',
+                    'O usuário foi excluído do banco de dados.',
+                    'success'
+                    )
+                }
+            })
         }
     }
-
 }
 
 </script>

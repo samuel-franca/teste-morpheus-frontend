@@ -7,5 +7,9 @@ export default {
 
     salvar:(usuario) => {
         return http.post('usuario/cadastro', usuario)
+    },
+
+    excluir:(login) => {
+        return http.delete('usuario/deletar', {data: login})
     }
 }

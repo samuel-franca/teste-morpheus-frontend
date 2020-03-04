@@ -94,7 +94,7 @@ export default {
                 })
             }
             else{
-                Swal.fire('Login já existente.', 'Por favor, escolha outro', 'warning')
+                Swal.fire('Login já existente.', 'Por favor, escolha outro.', 'warning')
             }
         }
     }
